@@ -1,0 +1,39 @@
+#
+# Copyright 2023 PlayUnlimited.DE
+#
+
+auto lo
+iface lo inet static
+iface lo inet6 static
+
+auto INTERFACE_NAME
+iface INTERFACE_NAME inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+        address 10.10.10.0/8
+        bridge-ports none
+        bridge-stp off
+        bridge-fd 0
+#OPNsense LAN
+
+auto vmbr1
+iface vmbr1 inet static
+        address MAIN_IP_CIDR
+        gateway MAIN_IP_GATEWAY
+        bridge-ports INTERFACE_NAME
+        bridge-stp off
+        bridge-fd 0
+        hwaddress SERVER_MAC_ADDRESS
+        post-up sysctl -w net.ipv4.ip_forward=1
+        post-up sysctl -w net.ipv6.conf.all.forwarding=1
+#OPNsense WAN
+
+auto vmbr2
+iface vmbr2 inet manual
+        bridge-ports none
+        bridge-stp off
+        bridge-fd 0
+        bridge-vlan-aware yes
+        bridge-vids 2-4094
+#VM NET
