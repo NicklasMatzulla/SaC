@@ -1,0 +1,54 @@
+#
+# Copyright 2023 PlayUnlimited.DE
+#
+
+version: '3'
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    volumes:
+      - ./vw-data:/data/:rw
+    environment:
+      WEBSOCKET_ENABLED: true
+      SENDS_ALLOWED: false
+      EMERGENCY_ACCESS_ALLOWED: false
+      ORG_EVENTS_ENABLED: true
+      EVENTS_DAYS_RETAIN: 30
+      ORG_GROUPS_ENABLED: true
+      LOG_FILE: '/data/vaultwarden.log'
+      LOG_LEVEL: 'Info'
+      SIGNUPS_ALLOWED: false
+      SIGNUPS_VERIFY: true
+      SIGNUPS_DOMAINS_WHITELIST: 'playunlimited.de'
+      ORG_CREATION_USERS: ''
+      ADMIN_TOKEN: ''
+      INVITATIONS_ALLOWED: false
+      TRASH_AUTO_DELETE_DAYS: 30
+      PASSWORD_HINTS_ALLOWED: false
+      DOMAIN: 'https://pass.playunlimited.de'
+      SMTP_HOST: 'mail.playunlimited.de'
+      SMTP_FROM: 'noreply@playunlimited.de'
+      SMTP_FROM_NAME: 'pass.playunlimited.de'
+      SMTP_SECURITY: 'force_tls'
+      SMTP_PORT: 465
+      SMTP_USERNAME: 'noreply@playunlimited.de'
+      SMTP_PASSWORD: ''
+      SMTP_TIMEOUT: 15
+    networks:
+      - vaultwarden
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/vaultwarden.conf:ro
+      - ./ssl/:/etc/nginx/ssl/:ro
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - vaultwarden
+
+networks:
+  vaultwarden:
+    driver: bridge
