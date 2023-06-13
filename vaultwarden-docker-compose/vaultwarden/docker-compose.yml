@@ -23,7 +23,7 @@ services:
       SIGNUPS_DOMAINS_WHITELIST: 'playunlimited.de'
       ORG_CREATION_USERS: ''
       ADMIN_TOKEN: ''
-      INVITATIONS_ALLOWED: false
+      INVITATIONS_ALLOWED: true
       TRASH_AUTO_DELETE_DAYS: 30
       PASSWORD_HINTS_ALLOWED: false
       DOMAIN: 'https://pass.playunlimited.de'
@@ -35,6 +35,8 @@ services:
       SMTP_USERNAME: 'noreply@playunlimited.de'
       SMTP_PASSWORD: ''
       SMTP_TIMEOUT: 15
+      YUBICO_CLIENT_ID: ''
+      YUBICO_SECRET_KEY: ''
     networks:
       - vaultwarden
   nginx:
