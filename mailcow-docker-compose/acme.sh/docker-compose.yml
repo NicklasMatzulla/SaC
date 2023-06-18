@@ -1,0 +1,21 @@
+#
+# Copyright 2023 PlayUnlimited.DE
+#
+
+version: '3'
+services:
+
+    acme:
+        image: neilpang/acme.sh:latest
+        restart: unless-stopped
+        volumes:
+            - ./acme.sh-docker.sh:/acme.sh-docker.sh:ro
+            - ./acme.sh:/acme.sh:rw
+            - ./ssl/:/ssl/:rw
+        environment:
+            CF_Account_ID: ""
+            CF_Token: ""
+            CF_Zone_ID: ""
+            ACME_SH_EMAIL: "admin@playunlimited.de"
+        command: sh ./acme.sh-docker.sh
+        container_name: acme
