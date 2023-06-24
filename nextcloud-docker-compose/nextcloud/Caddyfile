@@ -1,0 +1,18 @@
+https://cloud.playunlimited.de:443 {
+    header Strict-Transport-Security max-age=31536000;
+    reverse_proxy 127.0.0.1:11000
+    tls admin@playunlimited.de {
+        dns cloudflare <cloudflare_token>
+    }
+}
+
+https://aio.cloud.playunlimited.de:443 {
+    reverse_proxy https://127.0.0.1:8080 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+    }
+    tls admin@playunlimited.de {
+        dns cloudflare <cloudflare_token>
+    }
+}
