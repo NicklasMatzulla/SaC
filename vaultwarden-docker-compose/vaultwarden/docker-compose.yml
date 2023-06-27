@@ -37,6 +37,7 @@ services:
       SMTP_TIMEOUT: 15
       YUBICO_CLIENT_ID: ''
       YUBICO_SECRET_KEY: ''
+      ICON_BLACKLIST_NON_GLOBAL_IPS: false
     networks:
       - vaultwarden
   nginx:
